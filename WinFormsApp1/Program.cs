@@ -1,4 +1,4 @@
-using WinFormsApp1.WinForms;
+using WinFormsApp1.WIndowForms;
 
 namespace WinFormsApp1
 {
@@ -8,7 +8,7 @@ namespace WinFormsApp1
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new WelcomeForm());
+            Application.Run(new MainForm());
         }
     }
 }
