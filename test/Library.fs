@@ -1,4 +1,3 @@
-﻿
 module Dictionary
 
 
@@ -16,7 +15,6 @@ let searchWord word =
     | None -> $"{word} not found"
 
 
-
 let deleteWord word =
     if dictionary.ContainsKey(word) then
         dictionary <- dictionary.Remove(word)
@@ -32,6 +30,13 @@ let updateWord word newTranslation =
     else
         printfn "%s not found" word
 
+let getKeys = 
+    dictionary.Keys |> Seq.toArray
+
+let getDictionary = 
+    dictionary
+let getDicKey = 
+    dictionary.Keys
 open System.IO
 open Newtonsoft.Json
 
@@ -40,3 +45,20 @@ let saveToJson filePath =
     File.WriteAllText(filePath, json)
     printfn "Dictionary saved to %s" filePath
 
+let loadFromJson filePath =
+    if File.Exists(filePath) then
+        let json = File.ReadAllText(filePath)
+        dictionary <- JsonConvert.DeserializeObject<Map<string, string option>>(json)
+        printfn "Dictionary loaded from %s" filePath
+    else
+        printfn "File %s not found" filePath
+
+// Change to a value instead of a function
+let printDictionaryContents = 
+    printfn "Dictionary contents:"
+    dictionary |> Map.iter (fun key value ->
+        match value with
+        | Some translation -> printfn "%s -> %s" key translation
+        | None -> printfn "%s -> No translation" key
+    )
+    printfn "Dictionary size: %d" dictionary.Count
